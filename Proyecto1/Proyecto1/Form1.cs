@@ -5,7 +5,7 @@ namespace Proyecto1
 {
     public partial class Form1 : Form
     {
-        //Linea de conexion
+        // Conexion de bd
         private readonly string connectionString = @"Data Source=DESKTOP-3IOUQVC\SQLEXPRESS;Initial Catalog=CalculadoraDB;Integrated Security=True;TrustServerCertificate=True";
         
         private double numero1 = 0;
@@ -86,13 +86,22 @@ namespace Proyecto1
                                 double resultado = Convert.ToDouble(reader["Resultado"]);
                                 DateTime fecha = Convert.ToDateTime(reader["FechaCalculo"]);
 
-                                string operacionStr;
-                                if (op == "√")
-                                    operacionStr = $"√{num2}";
-                                else
-                                    operacionStr = $"{num1} {op} {num2}";
+                                // Crear una descripción de op
+                                string operacionStr = "";
+                                switch (op)
+                                {
+                                    case "√":
+                                        operacionStr = $"√{num2} = {resultado}";
+                                        break;
+                                    case "^":
+                                        operacionStr = $"{num1} ^ {num2} = {resultado}";
+                                        break;
+                                    default:
+                                        operacionStr = $"{num1} {op} {num2} = {resultado}";
+                                        break;
+                                }
 
-                                listBox1.Items.Add($"{operacionStr} = {resultado} [{fecha}]");
+                                listBox1.Items.Add($"{operacionStr} [{fecha}]");
                             }
                         }
                     }
@@ -236,7 +245,7 @@ namespace Proyecto1
                 return;
             }
 
-            // punto decimal. para accion
+            // Si ya tiene un punto decimal, no hacer nada
             if (textBox1.Text.Contains("."))
                 return;
 
@@ -261,18 +270,18 @@ namespace Proyecto1
                     operacionElegida = false;
                 }
 
-                //Para longitud de numero
+                // número largo
                 if (textBox1.Text.Length >= 15)
                 {
                     MessageBox.Show("El número es demasiado largo.");
                     return;
                 }
 
-                // Que no genere 0
+                // Evitar múltiples ceros al inicio
                 if (textBox1.Text == "0" && numero == "0")
                     return;
 
-                // Reemplazo de 0
+                // Si el texto es "0" y se presiona cualquier número, reemplazar el 0
                 if (textBox1.Text == "0" && numero != ".")
                     textBox1.Text = numero;
                 else
@@ -288,23 +297,6 @@ namespace Proyecto1
         {
             try
             {
-                // Calculo de una op pendiente
-                if (operacionElegida && !string.IsNullOrEmpty(textBox1.Text))
-                {
-                    btnIgual_Click(null, null);
-                }
-
-                if (string.IsNullOrWhiteSpace(textBox1.Text))
-                {
-                    if (op == "-") //negativo
-                    {
-                        textBox1.Text = "-";
-                        return;
-                    }
-                    MessageBox.Show("Por favor, ingrese un número antes de seleccionar una operación.");
-                    return;
-                }
-
                 if (!double.TryParse(textBox1.Text, out numero1))
                 {
                     MessageBox.Show("El valor ingresado no es un número válido.");
@@ -321,6 +313,7 @@ namespace Proyecto1
         }
     }
 }
+
 
 
 
