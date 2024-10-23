@@ -2,11 +2,11 @@ namespace Proyecto1
 {
     public partial class Form1 : Form
     {
-    
+        
         private double numero1 = 0;
         private double numero2 = 0;
         private string operacion = "";
-        private bool operacionElegida = false;
+        private bool operacionElegida = false; 
 
         public Form1()
         {
@@ -29,11 +29,31 @@ namespace Proyecto1
         private void btnMultiplicar_Click(object sender, EventArgs e) { SeleccionarOperacion("*"); }
         private void btnDividir_Click(object sender, EventArgs e) { SeleccionarOperacion("/"); }
         private void btnPotencia_Click(object sender, EventArgs e) { SeleccionarOperacion("^"); }
-        private void btnRaiz_Click(object sender, EventArgs e) { SeleccionarOperacion("√"); }
+        private void btnRaiz_Click(object sender, EventArgs e)
+        {
+            
+            numero1 = double.Parse(textBox1.Text);
+
+            
+            if (numero1 < 0)
+            {
+                MessageBox.Show("Error: No se puede calcular la raíz cuadrada de un número negativo.");
+                return;
+            }
+
+            
+            double resultado = Math.Sqrt(numero1);
+            textBox1.Text = resultado.ToString();
+
+        
+            listBox1.Items.Add($"√{numero1} = {resultado}");
+
+            operacionElegida = false;
+        }
 
         private void btnIgual_Click(object sender, EventArgs e)
         {
-            
+            // Realizar la operación seleccionada
             numero2 = double.Parse(textBox1.Text);
             double resultado = 0;
 
@@ -64,17 +84,17 @@ namespace Proyecto1
 
             textBox1.Text = resultado.ToString();
             listBox1.Items.Add($"{numero1} {operacion} {numero2} = {resultado}");
-            operacionElegida = false; 
+            operacionElegida = false;
         }
 
         private void btnBorrar_Click(object sender, EventArgs e)
         {
-            
+            // Borrar todo
             textBox1.Clear();
             numero1 = 0;
             numero2 = 0;
             operacion = "";
-            operacionElegida = false; 
+            operacionElegida = false;
         }
 
         private void btnDecimal_Click(object sender, EventArgs e)
@@ -87,7 +107,7 @@ namespace Proyecto1
 
         private void AgregarNumero(string numero)
         {
-            if (operacionElegida) 
+            if (operacionElegida)
             {
                 textBox1.Clear();
                 operacionElegida = false;
@@ -99,12 +119,12 @@ namespace Proyecto1
         {
             numero1 = double.Parse(textBox1.Text);
             operacion = op;
-            operacionElegida = true; 
+            operacionElegida = true;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+        
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -113,5 +133,6 @@ namespace Proyecto1
         }
     }
 }
+
 
 
