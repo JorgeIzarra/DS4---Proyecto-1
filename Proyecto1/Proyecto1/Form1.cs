@@ -1,7 +1,12 @@
+using System.Data.SqlClient;
+using System.Configuration;
+
 namespace Proyecto1
 {
     public partial class Form1 : Form
     {
+        //Linea de conexion
+        private readonly string connectionString = @"Data Source=DESKTOP-3IOUQVC\SQLEXPRESS;Initial Catalog=CalculadoraDB;Integrated Security=True;TrustServerCertificate=True";
         
         private double numero1 = 0;
         private double numero2 = 0;
@@ -29,10 +34,79 @@ namespace Proyecto1
         private void btnMultiplicar_Click(object sender, EventArgs e) { SeleccionarOperacion("*"); }
         private void btnDividir_Click(object sender, EventArgs e) { SeleccionarOperacion("/"); }
         private void btnPotencia_Click(object sender, EventArgs e) { SeleccionarOperacion("^"); }
+        private void btnRaiz_Click(object sender, EventArgs e) { SeleccionarOperacion("√"); }
 
-        private void btnRaiz_Click(object sender, EventArgs e)
+        private void GuardarOperacion(double num1, double num2, string operador, double resultado)
         {
-            SeleccionarOperacion("√");
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string insertQuery = @"INSERT INTO Calculos (Numero1, Numero2, Operacion, Resultado) 
+                                        VALUES (@Numero1, @Numero2, @Operacion, @Resultado)";
+                    
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Numero1", num1);
+                        cmd.Parameters.AddWithValue("@Numero2", num2);
+                        cmd.Parameters.AddWithValue("@Operacion", operador);
+                        cmd.Parameters.AddWithValue("@Resultado", resultado);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar en la base de datos: " + ex.Message);
+            }
+        }
+
+        private void CargarHistorial()
+        {
+            try
+            {
+                listBox1.Items.Clear();
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string selectQuery = @"SELECT Numero1, Numero2, Operacion, Resultado, FechaCalculo 
+                                         FROM Calculos 
+                                         ORDER BY FechaCalculo DESC";
+                    
+                    using (SqlCommand cmd = new SqlCommand(selectQuery, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                double num1 = Convert.ToDouble(reader["Numero1"]);
+                                double num2 = Convert.ToDouble(reader["Numero2"]);
+                                string op = reader["Operacion"].ToString();
+                                double resultado = Convert.ToDouble(reader["Resultado"]);
+                                DateTime fecha = Convert.ToDateTime(reader["FechaCalculo"]);
+
+                                string operacionStr;
+                                if (op == "√")
+                                    operacionStr = $"√{num2}";
+                                else
+                                    operacionStr = $"{num1} {op} {num2}";
+
+                                listBox1.Items.Add($"{operacionStr} = {resultado} [{fecha}]");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el historial: " + ex.Message);
+            }
+        }
+
+        private void btnRegistro_Click(object sender, EventArgs e)
+        {
+            CargarHistorial();
         }
 
         private void btnIgual_Click(object sender, EventArgs e)
@@ -45,7 +119,6 @@ namespace Proyecto1
                     return;
                 }
 
-                // Si no hay operación seleccionada
                 if (string.IsNullOrEmpty(operacion))
                 {
                     MessageBox.Show("Por favor, seleccione una operación antes de presionar igual.");
@@ -70,7 +143,9 @@ namespace Proyecto1
                             operacionExitosa = false;
                         }
                         else
+                        {
                             resultado = numero1 + numero2;
+                        }
                         break;
                     case "-":
                         resultado = numero1 - numero2;
@@ -82,7 +157,9 @@ namespace Proyecto1
                             operacionExitosa = false;
                         }
                         else
+                        {
                             resultado = numero1 * numero2;
+                        }
                         break;
                     case "/":
                         if (numero2 == 0)
@@ -91,7 +168,9 @@ namespace Proyecto1
                             operacionExitosa = false;
                         }
                         else
+                        {
                             resultado = numero1 / numero2;
+                        }
                         break;
                     case "^":
                         if (numero2 > 100)
@@ -100,7 +179,9 @@ namespace Proyecto1
                             operacionExitosa = false;
                         }
                         else
+                        {
                             resultado = Math.Pow(numero1, numero2);
+                        }
                         break;
                     case "√":
                         if (numero2 < 0)
@@ -111,8 +192,6 @@ namespace Proyecto1
                         else
                         {
                             resultado = Math.Sqrt(numero2);
-                            textBox1.Text = resultado.ToString();
-                            listBox1.Items.Add($"√{numero2} = {resultado}");
                         }
                         break;
                     default:
@@ -129,8 +208,7 @@ namespace Proyecto1
                     }
 
                     textBox1.Text = resultado.ToString();
-                    if (operacion != "√")  // Ya agregamos el registro para raíz cuadrada arriba
-                        listBox1.Items.Add($"{numero1} {operacion} {numero2} = {resultado}");
+                    GuardarOperacion(numero1, numero2, operacion, resultado);
                     operacionElegida = false;
                 }
             }
@@ -158,7 +236,7 @@ namespace Proyecto1
                 return;
             }
 
-            // Si ya tiene un punto decimal, no hacer nada
+            // punto decimal. para accion
             if (textBox1.Text.Contains("."))
                 return;
 
@@ -183,18 +261,18 @@ namespace Proyecto1
                     operacionElegida = false;
                 }
 
-                // Evitar que el número sea demasiado largo
+                //Para longitud de numero
                 if (textBox1.Text.Length >= 15)
                 {
                     MessageBox.Show("El número es demasiado largo.");
                     return;
                 }
 
-                // Evitar múltiples ceros al inicio
+                // Que no genere 0
                 if (textBox1.Text == "0" && numero == "0")
                     return;
 
-                // Si el texto es "0" y se presiona cualquier número, reemplazar el 0
+                // Reemplazo de 0
                 if (textBox1.Text == "0" && numero != ".")
                     textBox1.Text = numero;
                 else
@@ -210,7 +288,7 @@ namespace Proyecto1
         {
             try
             {
-                // Si ya hay una operación pendiente, calcular el resultado antes de la nueva operación
+                // Calculo de una op pendiente
                 if (operacionElegida && !string.IsNullOrEmpty(textBox1.Text))
                 {
                     btnIgual_Click(null, null);
@@ -218,7 +296,7 @@ namespace Proyecto1
 
                 if (string.IsNullOrWhiteSpace(textBox1.Text))
                 {
-                    if (op == "-") // Permitir números negativos
+                    if (op == "-") //negativo
                     {
                         textBox1.Text = "-";
                         return;
@@ -243,7 +321,6 @@ namespace Proyecto1
         }
     }
 }
-
 
 
 
