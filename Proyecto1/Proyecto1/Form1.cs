@@ -2,7 +2,7 @@ namespace Proyecto1
 {
     public partial class Form1 : Form
     {
-        
+        // Variables
         private double numero1 = 0;
         private double numero2 = 0;
         private string operacion = "";
@@ -29,8 +29,16 @@ namespace Proyecto1
         private void btnMultiplicar_Click(object sender, EventArgs e) { SeleccionarOperacion("*"); }
         private void btnDividir_Click(object sender, EventArgs e) { SeleccionarOperacion("/"); }
         private void btnPotencia_Click(object sender, EventArgs e) { SeleccionarOperacion("^"); }
+
         private void btnRaiz_Click(object sender, EventArgs e)
         {
+            // Verificacion textbox
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("Por favor, ingrese un número antes de calcular la raíz cuadrada.");
+                return;
+            }
+
             
             numero1 = double.Parse(textBox1.Text);
 
@@ -45,7 +53,7 @@ namespace Proyecto1
             double resultado = Math.Sqrt(numero1);
             textBox1.Text = resultado.ToString();
 
-        
+            
             listBox1.Items.Add($"√{numero1} = {resultado}");
 
             operacionElegida = false;
@@ -53,7 +61,14 @@ namespace Proyecto1
 
         private void btnIgual_Click(object sender, EventArgs e)
         {
-            // Realizar la operación seleccionada
+            // Verificacion
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("Por favor, ingrese un número antes de realizar la operación.");
+                return;
+            }
+
+            
             numero2 = double.Parse(textBox1.Text);
             double resultado = 0;
 
@@ -77,9 +92,6 @@ namespace Proyecto1
                 case "^":
                     resultado = Math.Pow(numero1, numero2);
                     break;
-                case "√":
-                    resultado = Math.Sqrt(numero1);
-                    break;
             }
 
             textBox1.Text = resultado.ToString();
@@ -89,7 +101,7 @@ namespace Proyecto1
 
         private void btnBorrar_Click(object sender, EventArgs e)
         {
-            // Borrar todo
+            
             textBox1.Clear();
             numero1 = 0;
             numero2 = 0;
@@ -117,6 +129,13 @@ namespace Proyecto1
 
         private void SeleccionarOperacion(string op)
         {
+            
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("Por favor, ingrese un número antes de seleccionar una operación.");
+                return;
+            }
+
             numero1 = double.Parse(textBox1.Text);
             operacion = op;
             operacionElegida = true;
@@ -124,7 +143,7 @@ namespace Proyecto1
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-        
+            
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -133,6 +152,7 @@ namespace Proyecto1
         }
     }
 }
+
 
 
 
