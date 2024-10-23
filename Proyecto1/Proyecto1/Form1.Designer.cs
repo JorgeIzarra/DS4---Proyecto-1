@@ -166,6 +166,7 @@
             // 
             btnResta.BackColor = SystemColors.ControlDark;
             btnResta.BackgroundImageLayout = ImageLayout.Zoom;
+            btnResta.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnResta.Location = new Point(358, 523);
             btnResta.Name = "btnResta";
             btnResta.Size = new Size(70, 70);
@@ -178,6 +179,7 @@
             // 
             btnSuma.BackColor = SystemColors.ControlDark;
             btnSuma.BackgroundImageLayout = ImageLayout.Zoom;
+            btnSuma.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnSuma.Location = new Point(282, 523);
             btnSuma.Name = "btnSuma";
             btnSuma.Size = new Size(70, 70);
@@ -190,6 +192,7 @@
             // 
             btnRaiz.BackColor = SystemColors.ControlDark;
             btnRaiz.BackgroundImageLayout = ImageLayout.Zoom;
+            btnRaiz.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnRaiz.Location = new Point(358, 597);
             btnRaiz.Name = "btnRaiz";
             btnRaiz.RightToLeft = RightToLeft.No;
@@ -203,6 +206,7 @@
             // 
             btnMultiplicar.BackColor = SystemColors.ControlDark;
             btnMultiplicar.BackgroundImageLayout = ImageLayout.Zoom;
+            btnMultiplicar.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnMultiplicar.Location = new Point(282, 447);
             btnMultiplicar.Name = "btnMultiplicar";
             btnMultiplicar.Size = new Size(70, 70);
@@ -215,6 +219,7 @@
             // 
             btnDividir.BackColor = SystemColors.ControlDark;
             btnDividir.BackgroundImageLayout = ImageLayout.Zoom;
+            btnDividir.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnDividir.Location = new Point(358, 447);
             btnDividir.Name = "btnDividir";
             btnDividir.Size = new Size(70, 70);
@@ -242,6 +247,7 @@
             // btnBorrar
             // 
             btnBorrar.BackColor = SystemColors.ControlDark;
+            btnBorrar.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnBorrar.Location = new Point(434, 447);
             btnBorrar.Name = "btnBorrar";
             btnBorrar.Size = new Size(70, 70);
@@ -259,11 +265,13 @@
             btnRegistro.TabIndex = 19;
             btnRegistro.Text = "Registro";
             btnRegistro.UseVisualStyleBackColor = false;
+            btnRegistro.Click += btnRegistro_Click_1;
             // 
             // btnPotencia
             // 
             btnPotencia.BackColor = SystemColors.ControlDark;
             btnPotencia.BackgroundImageLayout = ImageLayout.Zoom;
+            btnPotencia.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnPotencia.Location = new Point(282, 597);
             btnPotencia.Name = "btnPotencia";
             btnPotencia.Size = new Size(70, 70);
@@ -276,6 +284,7 @@
             // 
             btnIgual.BackColor = SystemColors.ControlDark;
             btnIgual.BackgroundImageLayout = ImageLayout.Zoom;
+            btnIgual.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnIgual.Location = new Point(434, 523);
             btnIgual.Name = "btnIgual";
             btnIgual.Size = new Size(70, 144);

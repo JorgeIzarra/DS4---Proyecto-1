@@ -7,7 +7,7 @@ namespace Proyecto1
     {
         // Conexion de bd
         private readonly string connectionString = @"Data Source=DESKTOP-3IOUQVC\SQLEXPRESS;Initial Catalog=CalculadoraDB;Integrated Security=True;TrustServerCertificate=True";
-        
+
         private double numero1 = 0;
         private double numero2 = 0;
         private string operacion = "";
@@ -45,7 +45,7 @@ namespace Proyecto1
                     conn.Open();
                     string insertQuery = @"INSERT INTO Calculos (Numero1, Numero2, Operacion, Resultado) 
                                         VALUES (@Numero1, @Numero2, @Operacion, @Resultado)";
-                    
+
                     using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@Numero1", num1);
@@ -73,7 +73,7 @@ namespace Proyecto1
                     string selectQuery = @"SELECT Numero1, Numero2, Operacion, Resultado, FechaCalculo 
                                          FROM Calculos 
                                          ORDER BY FechaCalculo DESC";
-                    
+
                     using (SqlCommand cmd = new SqlCommand(selectQuery, conn))
                     {
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -310,6 +310,11 @@ namespace Proyecto1
             {
                 MessageBox.Show("Error al seleccionar operación: " + ex.Message);
             }
+        }
+
+        private void btnRegistro_Click_1(object sender, EventArgs e)
+        {
+            CargarHistorial();
         }
     }
 }
