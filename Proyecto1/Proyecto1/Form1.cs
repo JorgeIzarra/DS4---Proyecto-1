@@ -2,11 +2,11 @@ namespace Proyecto1
 {
     public partial class Form1 : Form
     {
-        
+    
         private double numero1 = 0;
         private double numero2 = 0;
         private string operacion = "";
-        private bool operacionSeleccionada = false;
+        private bool operacionElegida = false;
 
         public Form1()
         {
@@ -64,7 +64,7 @@ namespace Proyecto1
 
             textBox1.Text = resultado.ToString();
             listBox1.Items.Add($"{numero1} {operacion} {numero2} = {resultado}");
-            operacionSeleccionada = false;
+            operacionElegida = false; 
         }
 
         private void btnBorrar_Click(object sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace Proyecto1
             numero1 = 0;
             numero2 = 0;
             operacion = "";
-            operacionSeleccionada = false;
+            operacionElegida = false; 
         }
 
         private void btnDecimal_Click(object sender, EventArgs e)
@@ -87,19 +87,19 @@ namespace Proyecto1
 
         private void AgregarNumero(string numero)
         {
-            if (operacionSeleccionada)
+            if (operacionElegida) 
             {
                 textBox1.Clear();
-                operacionSeleccionada = false;
+                operacionElegida = false;
             }
             textBox1.Text += numero;
         }
 
-        private void SeleccionarOperacion(string operacionSeleccionada)
+        private void SeleccionarOperacion(string op)
         {
             numero1 = double.Parse(textBox1.Text);
-            operacion = operacionSeleccionada;
-            operacionSeleccionada = true;
+            operacion = op;
+            operacionElegida = true; 
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -113,4 +113,5 @@ namespace Proyecto1
         }
     }
 }
+
 
