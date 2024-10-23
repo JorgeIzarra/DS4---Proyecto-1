@@ -2,11 +2,11 @@ namespace Proyecto1
 {
     public partial class Form1 : Form
     {
-        // Variables
+        
         private double numero1 = 0;
         private double numero2 = 0;
         private string operacion = "";
-        private bool operacionElegida = false; 
+        private bool operacionElegida = false;
 
         public Form1()
         {
@@ -32,7 +32,7 @@ namespace Proyecto1
 
         private void btnRaiz_Click(object sender, EventArgs e)
         {
-            // Verificacion textbox
+            
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Por favor, ingrese un número antes de calcular la raíz cuadrada.");
@@ -50,6 +50,9 @@ namespace Proyecto1
             }
 
             
+            textBox1.Text = $"√{textBox1.Text}";
+
+            
             double resultado = Math.Sqrt(numero1);
             textBox1.Text = resultado.ToString();
 
@@ -61,14 +64,12 @@ namespace Proyecto1
 
         private void btnIgual_Click(object sender, EventArgs e)
         {
-            // Verificacion
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Por favor, ingrese un número antes de realizar la operación.");
                 return;
             }
 
-            
             numero2 = double.Parse(textBox1.Text);
             double resultado = 0;
 
@@ -101,7 +102,6 @@ namespace Proyecto1
 
         private void btnBorrar_Click(object sender, EventArgs e)
         {
-            
             textBox1.Clear();
             numero1 = 0;
             numero2 = 0;
@@ -129,7 +129,6 @@ namespace Proyecto1
 
         private void SeleccionarOperacion(string op)
         {
-            
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Por favor, ingrese un número antes de seleccionar una operación.");
@@ -143,12 +142,10 @@ namespace Proyecto1
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
         }
     }
 }
