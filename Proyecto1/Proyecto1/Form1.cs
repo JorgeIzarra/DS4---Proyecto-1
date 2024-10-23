@@ -32,72 +32,112 @@ namespace Proyecto1
 
         private void btnRaiz_Click(object sender, EventArgs e)
         {
-            
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
-            {
-                MessageBox.Show("Por favor, ingrese un número antes de calcular la raíz cuadrada.");
-                return;
-            }
-
-            
-            numero1 = double.Parse(textBox1.Text);
-
-            
-            if (numero1 < 0)
-            {
-                MessageBox.Show("Error: No se puede calcular la raíz cuadrada de un número negativo.");
-                return;
-            }
-
-            
-            textBox1.Text = $"√{textBox1.Text}";
-
-            
-            double resultado = Math.Sqrt(numero1);
-            textBox1.Text = resultado.ToString();
-
-            
-            listBox1.Items.Add($"√{numero1} = {resultado}");
-
-            operacionElegida = false;
+            SeleccionarOperacion("√");
         }
 
         private void btnIgual_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            try
             {
-                MessageBox.Show("Por favor, ingrese un número antes de realizar la operación.");
-                return;
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    MessageBox.Show("Por favor, ingrese un número antes de realizar la operación.");
+                    return;
+                }
+
+                // Si no hay operación seleccionada
+                if (string.IsNullOrEmpty(operacion))
+                {
+                    MessageBox.Show("Por favor, seleccione una operación antes de presionar igual.");
+                    return;
+                }
+
+                if (!double.TryParse(textBox1.Text, out numero2))
+                {
+                    MessageBox.Show("El valor ingresado no es un número válido.");
+                    return;
+                }
+
+                double resultado = 0;
+                bool operacionExitosa = true;
+
+                switch (operacion)
+                {
+                    case "+":
+                        if (numero1 + numero2 > double.MaxValue)
+                        {
+                            MessageBox.Show("El resultado es demasiado grande.");
+                            operacionExitosa = false;
+                        }
+                        else
+                            resultado = numero1 + numero2;
+                        break;
+                    case "-":
+                        resultado = numero1 - numero2;
+                        break;
+                    case "*":
+                        if (numero1 * numero2 > double.MaxValue)
+                        {
+                            MessageBox.Show("El resultado es demasiado grande.");
+                            operacionExitosa = false;
+                        }
+                        else
+                            resultado = numero1 * numero2;
+                        break;
+                    case "/":
+                        if (numero2 == 0)
+                        {
+                            MessageBox.Show("Error: No es posible dividir por cero.");
+                            operacionExitosa = false;
+                        }
+                        else
+                            resultado = numero1 / numero2;
+                        break;
+                    case "^":
+                        if (numero2 > 100)
+                        {
+                            MessageBox.Show("El exponente es demasiado grande.");
+                            operacionExitosa = false;
+                        }
+                        else
+                            resultado = Math.Pow(numero1, numero2);
+                        break;
+                    case "√":
+                        if (numero2 < 0)
+                        {
+                            MessageBox.Show("Error: No se puede calcular la raíz cuadrada de un número negativo.");
+                            operacionExitosa = false;
+                        }
+                        else
+                        {
+                            resultado = Math.Sqrt(numero2);
+                            textBox1.Text = resultado.ToString();
+                            listBox1.Items.Add($"√{numero2} = {resultado}");
+                        }
+                        break;
+                    default:
+                        MessageBox.Show("Operación no válida");
+                        return;
+                }
+
+                if (operacionExitosa)
+                {
+                    if (double.IsInfinity(resultado))
+                    {
+                        MessageBox.Show("El resultado es demasiado grande para mostrarse.");
+                        return;
+                    }
+
+                    textBox1.Text = resultado.ToString();
+                    if (operacion != "√")  // Ya agregamos el registro para raíz cuadrada arriba
+                        listBox1.Items.Add($"{numero1} {operacion} {numero2} = {resultado}");
+                    operacionElegida = false;
+                }
             }
-
-            numero2 = double.Parse(textBox1.Text);
-            double resultado = 0;
-
-            switch (operacion)
+            catch (Exception ex)
             {
-                case "+":
-                    resultado = numero1 + numero2;
-                    break;
-                case "-":
-                    resultado = numero1 - numero2;
-                    break;
-                case "*":
-                    resultado = numero1 * numero2;
-                    break;
-                case "/":
-                    if (numero2 != 0)
-                        resultado = numero1 / numero2;
-                    else
-                        MessageBox.Show("Error: División por cero.");
-                    break;
-                case "^":
-                    resultado = Math.Pow(numero1, numero2);
-                    break;
+                MessageBox.Show("Error al realizar la operación: " + ex.Message);
             }
-
-            textBox1.Text = resultado.ToString();
-            listBox1.Items.Add($"{numero1} {operacion} {numero2} = {resultado}");
-            operacionElegida = false;
         }
 
         private void btnBorrar_Click(object sender, EventArgs e)
@@ -111,41 +151,95 @@ namespace Proyecto1
 
         private void btnDecimal_Click(object sender, EventArgs e)
         {
-            if (!textBox1.Text.Contains("."))
+            // Si está vacío, agregar un 0 antes del punto
+            if (string.IsNullOrEmpty(textBox1.Text))
             {
-                textBox1.Text += ".";
+                textBox1.Text = "0.";
+                return;
             }
+
+            // Si ya tiene un punto decimal, no hacer nada
+            if (textBox1.Text.Contains("."))
+                return;
+
+            // Si se acaba de elegir una operación, empezar con "0."
+            if (operacionElegida)
+            {
+                textBox1.Text = "0.";
+                operacionElegida = false;
+                return;
+            }
+
+            textBox1.Text += ".";
         }
 
         private void AgregarNumero(string numero)
         {
-            if (operacionElegida)
+            try
             {
-                textBox1.Clear();
-                operacionElegida = false;
+                if (operacionElegida)
+                {
+                    textBox1.Clear();
+                    operacionElegida = false;
+                }
+
+                // Evitar que el número sea demasiado largo
+                if (textBox1.Text.Length >= 15)
+                {
+                    MessageBox.Show("El número es demasiado largo.");
+                    return;
+                }
+
+                // Evitar múltiples ceros al inicio
+                if (textBox1.Text == "0" && numero == "0")
+                    return;
+
+                // Si el texto es "0" y se presiona cualquier número, reemplazar el 0
+                if (textBox1.Text == "0" && numero != ".")
+                    textBox1.Text = numero;
+                else
+                    textBox1.Text += numero;
             }
-            textBox1.Text += numero;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al agregar número: " + ex.Message);
+            }
         }
 
         private void SeleccionarOperacion(string op)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            try
             {
-                MessageBox.Show("Por favor, ingrese un número antes de seleccionar una operación.");
-                return;
+                // Si ya hay una operación pendiente, calcular el resultado antes de la nueva operación
+                if (operacionElegida && !string.IsNullOrEmpty(textBox1.Text))
+                {
+                    btnIgual_Click(null, null);
+                }
+
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    if (op == "-") // Permitir números negativos
+                    {
+                        textBox1.Text = "-";
+                        return;
+                    }
+                    MessageBox.Show("Por favor, ingrese un número antes de seleccionar una operación.");
+                    return;
+                }
+
+                if (!double.TryParse(textBox1.Text, out numero1))
+                {
+                    MessageBox.Show("El valor ingresado no es un número válido.");
+                    return;
+                }
+
+                operacion = op;
+                operacionElegida = true;
             }
-
-            numero1 = double.Parse(textBox1.Text);
-            operacion = op;
-            operacionElegida = true;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar operación: " + ex.Message);
+            }
         }
     }
 }

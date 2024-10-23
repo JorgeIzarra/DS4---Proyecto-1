@@ -88,7 +88,7 @@
             // btn5
             // 
             btn5.BackColor = SystemColors.ControlLight;
-            btn5.Location = new Point(130, 445);
+            btn5.Location = new Point(130, 447);
             btn5.Name = "btn5";
             btn5.Size = new Size(70, 70);
             btn5.TabIndex = 3;
@@ -121,7 +121,7 @@
             // btn7
             // 
             btn7.BackColor = SystemColors.ControlLight;
-            btn7.Location = new Point(54, 521);
+            btn7.Location = new Point(54, 523);
             btn7.Name = "btn7";
             btn7.Size = new Size(70, 70);
             btn7.TabIndex = 6;
@@ -132,7 +132,7 @@
             // btn8
             // 
             btn8.BackColor = SystemColors.ControlLight;
-            btn8.Location = new Point(130, 521);
+            btn8.Location = new Point(130, 523);
             btn8.Name = "btn8";
             btn8.Size = new Size(70, 70);
             btn8.TabIndex = 7;
@@ -164,7 +164,7 @@
             // 
             // btnResta
             // 
-            btnResta.BackColor = SystemColors.ControlLight;
+            btnResta.BackColor = SystemColors.ControlDark;
             btnResta.BackgroundImageLayout = ImageLayout.Zoom;
             btnResta.Location = new Point(358, 523);
             btnResta.Name = "btnResta";
@@ -176,7 +176,7 @@
             // 
             // btnSuma
             // 
-            btnSuma.BackColor = SystemColors.ControlLight;
+            btnSuma.BackColor = SystemColors.ControlDark;
             btnSuma.BackgroundImageLayout = ImageLayout.Zoom;
             btnSuma.Location = new Point(282, 523);
             btnSuma.Name = "btnSuma";
@@ -188,7 +188,7 @@
             // 
             // btnRaiz
             // 
-            btnRaiz.BackColor = SystemColors.ControlLight;
+            btnRaiz.BackColor = SystemColors.ControlDark;
             btnRaiz.BackgroundImageLayout = ImageLayout.Zoom;
             btnRaiz.Location = new Point(358, 597);
             btnRaiz.Name = "btnRaiz";
@@ -201,7 +201,7 @@
             // 
             // btnMultiplicar
             // 
-            btnMultiplicar.BackColor = SystemColors.ControlLight;
+            btnMultiplicar.BackColor = SystemColors.ControlDark;
             btnMultiplicar.BackgroundImageLayout = ImageLayout.Zoom;
             btnMultiplicar.Location = new Point(282, 447);
             btnMultiplicar.Name = "btnMultiplicar";
@@ -213,9 +213,9 @@
             // 
             // btnDividir
             // 
-            btnDividir.BackColor = SystemColors.ControlLight;
+            btnDividir.BackColor = SystemColors.ControlDark;
             btnDividir.BackgroundImageLayout = ImageLayout.Zoom;
-            btnDividir.Location = new Point(358, 445);
+            btnDividir.Location = new Point(358, 447);
             btnDividir.Name = "btnDividir";
             btnDividir.Size = new Size(70, 70);
             btnDividir.TabIndex = 14;
@@ -231,7 +231,6 @@
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(450, 254);
             listBox1.TabIndex = 15;
-            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // textBox1
             // 
@@ -239,11 +238,10 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(450, 31);
             textBox1.TabIndex = 16;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // btnBorrar
             // 
-            btnBorrar.BackColor = SystemColors.ControlLight;
+            btnBorrar.BackColor = SystemColors.ControlDark;
             btnBorrar.Location = new Point(434, 447);
             btnBorrar.Name = "btnBorrar";
             btnBorrar.Size = new Size(70, 70);
@@ -255,7 +253,7 @@
             // btnRegistro
             // 
             btnRegistro.BackColor = SystemColors.ControlLight;
-            btnRegistro.Location = new Point(282, 371);
+            btnRegistro.Location = new Point(282, 369);
             btnRegistro.Name = "btnRegistro";
             btnRegistro.Size = new Size(222, 70);
             btnRegistro.TabIndex = 19;
@@ -264,7 +262,7 @@
             // 
             // btnPotencia
             // 
-            btnPotencia.BackColor = SystemColors.ControlLight;
+            btnPotencia.BackColor = SystemColors.ControlDark;
             btnPotencia.BackgroundImageLayout = ImageLayout.Zoom;
             btnPotencia.Location = new Point(282, 597);
             btnPotencia.Name = "btnPotencia";
@@ -276,7 +274,7 @@
             // 
             // btnIgual
             // 
-            btnIgual.BackColor = SystemColors.ControlLight;
+            btnIgual.BackColor = SystemColors.ControlDark;
             btnIgual.BackgroundImageLayout = ImageLayout.Zoom;
             btnIgual.Location = new Point(434, 523);
             btnIgual.Name = "btnIgual";
