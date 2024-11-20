@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "CalculadoraAPI\\CalculadoraAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "CalculadoraWeb\\CalculadoraWeb.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Calculadora";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="text-center">Calculadora Web</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mb-3">
+                        <label for="numero1">Primer Número:</label>
+                        <input type="number" class="form-control" id="numero1" step="any">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="operacion">Operación:</label>
+                        <select class="form-control" id="operacion">
+                            <option value="+">Suma (+)</option>
+                            <option value="-">Resta (-)</option>
+                            <option value="*">Multiplicación (*)</option>
+                            <option value="/">División (/)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="numero2">Segundo Número:</label>
+                        <input type="number" class="form-control" id="numero2" step="any">
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="calcular()">Calcular</button>
+                    </div>
+
+                    <div class="mt-3">
+                        <h4>Resultado:</h4>
+                        <div id="resultado" class="alert alert-info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function calcular() {
+            var numero1 = document.getElementById('numero1').value;
+            var numero2 = document.getElementById('numero2').value;
+            var operacion = document.getElementById('operacion').value;
+
+            if (!numero1 || !numero2) {
+                alert('Por favor, ingrese ambos números');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("Calcular", "Home")',
+                type: 'POST',
+                data: {
+                    numero1: parseFloat(numero1),
+                    numero2: parseFloat(numero2),
+                    operacion: operacion
+                },
+                success: function (response) {
+                    try {
+                        var data = JSON.parse(response);
+                        document.getElementById('resultado').innerHTML =
+                            numero1 + ' ' + operacion + ' ' + numero2 + ' = ' + data.Resultado;
+                        document.getElementById('resultado').style.display = 'block';
+                    } catch (e) {
+                        alert('Error al procesar el resultado');
+                    }
+                },
+                error: function () {
+                    alert('Error al realizar el cálculo');
+                }
+            });
+        }
+
+        // Ocultar el resultado inicialmente
+        document.getElementById('resultado').style.display = 'none';
+    </script>
+}
